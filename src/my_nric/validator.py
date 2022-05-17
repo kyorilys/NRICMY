@@ -19,7 +19,7 @@ def get_birth_date(number):
     try:
         return dt.date(year + 2000, month, day)
     except ValueError:
-        raise ValueError('Invalid value', code='invalid')
+        raise ValueError('Invalid value')
 
 
 def validate_birth_place(number):
@@ -117,9 +117,22 @@ def validate_birth_place(number):
     results = number in bp_data
 
     if not results:
-        raise ValueError('Invalid value', code='invalid')
+        raise ValueError('Invalid value')
 
     return results
+
+
+def get_gender(number):
+    number = remove_dash(number)
+    # - 1 index is the last string/char
+    last_char = number[-1]
+    result = "Male"
+    if int(last_char) % 2 == 0:
+        # if Even then is Female
+        result = "Female"
+
+    return result
+
 
 
 def validate_nric(number):
@@ -128,9 +141,9 @@ def validate_nric(number):
     try:
         number = remove_dash(number)
         if len(number) != 12:
-            raise ValueError('Invalid value', code='invalid')
+            raise ValueError('Invalid value')
         if not number.isdigit():
-            raise ValueError('Invalid value', code='invalid')
+            raise ValueError('Invalid value')
         get_birth_date(number)
         validate_birth_place(number)
         return True
